@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import {Space} from '@/types/space';
 import {ZOOM_TRANSITION} from '@/lib/motion';
 
+export const SPACE_IMAGE_SIZES = "100vw";
+
 const COVER = "max(100cqw, 150cqh)";
 const COVER_STYLE = {
     width: COVER,
@@ -28,7 +30,7 @@ export function SpaceImageFrame({ space, borderRadius, className, priority }: Sp
             style={{ borderRadius }}
         >
             <motion.div layoutId={`space-image-${space.id}`} transition={ZOOM_TRANSITION} className="absolute" style={COVER_STYLE}>
-                <Image src={space.image.imageUrl} alt={space.title} fill sizes="100vw" priority={priority} className="object-cover" />
+                <Image src={space.image.imageUrl} alt={space.title} fill sizes={SPACE_IMAGE_SIZES} priority={priority} className="object-cover" />
             </motion.div>
         </motion.div>
     );

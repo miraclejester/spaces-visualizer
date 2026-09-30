@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import {motion} from 'framer-motion';
-import {PlusIcon} from '@phosphor-icons/react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {CircleNotchIcon, PlusIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {useAppDispatch, useAppSelector} from '@/store/hooks';
 import {selectSpaces} from '@/store/selectors';
@@ -9,8 +9,10 @@ import {visualizerOpened} from '@/store/uiSlice';
 import {spaceAdded, spaceDuplicated, spaceFavoriteToggled} from '@/store/spacesSlice';
 import {getRandomSpace} from '@/lib/dataAccess';
 import {SpaceCard} from '@/components/SpaceCard';
+import {SPACE_IMAGE_SIZES} from '@/components/SpaceImageFrame';
 import {FADE_AROUND_ZOOM, SCALE_IN_NEW} from '@/lib/motion';
 import {useIsSwiping} from '@/lib/useIsSwiping';
+import {preloadImage} from '@/lib/preloadImage';
 
 const SLIDE_WIDTH = "min(80vw, calc((100vh - 220px) * 1.5))";
 
@@ -54,6 +56,8 @@ export function SpacesView() {
         setIsAdding(true);
         try {
             const space = await getRandomSpace(nextSpaceId());
+            // Keep the + button in its loading state until the photo is ready, so the card never appears blank
+            await preloadImage(space.image.imageUrl, SPACE_IMAGE_SIZES);
             revealNewSpace(space.id);
             dispatch(spaceAdded(space));
         } catch (e) {
@@ -104,11 +108,34 @@ export function SpacesView() {
                             onClick={addSpace}
                             disabled={isAdding}
                             className={clsx(
-                                "rounded-full p-4 text-neutral-400 transition-[color,transform] duration-200 ease-out hover:rotate-90 hover:text-white active:scale-90 focus-visible:outline-2 focus-visible:outline-white",
-                                isAdding && "animate-pulse cursor-wait"
+                                "relative rounded-full p-4 transition-[color,transform] duration-200 ease-out focus-visible:outline-2 focus-visible:outline-white",
+                                isAdding
+                                    ? "cursor-wait text-white"
+                                    : "text-neutral-400 hover:rotate-90 hover:text-white active:scale-90"
                             )}
                         >
-                            <PlusIcon size={48} weight="light" />
+                            <AnimatePresence mode="popLayout" initial={false}>
+                                <motion.span
+                                    key={isAdding ? "loading" : "idle"}
+                                    className="flex"
+                                    initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                                    exit={{ opacity: 0, scale: 0.5, rotate: 90 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    {isAdding
+                                        ? <CircleNotchIcon size={48} weight="light" className="animate-spin" />
+                                        : <PlusIcon size={48} weight="light" />}
+                                </motion.span>
+                            </AnimatePresence>
+                            <span
+                                className={clsx(
+                                    "absolute left-1/2 top-full -translate-x-1/2 whitespace-nowrap font-ui text-[11px] font-medium uppercase tracking-[0.5px] text-neutral-300 transition-opacity duration-200",
+                                    isAdding ? "opacity-100" : "opacity-0"
+                                )}
+                            >
+                                Loading space
+                            </span>
                         </button>
                     </motion.div>
                 </div>
