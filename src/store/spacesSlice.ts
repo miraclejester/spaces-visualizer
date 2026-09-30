@@ -15,9 +15,14 @@ const spacesSlice = createSlice({
     reducers: {
         spaceAdded: (state, action: PayloadAction<Space>) => {
             state.spaces.push(action.payload);
+        },
+        spaceDuplicated: (state, action: PayloadAction<{ sourceId: number, newId: number }>) => {
+            const index = state.spaces.findIndex((sp) => sp.id === action.payload.sourceId);
+            if (index === -1) return;
+            state.spaces.splice(index + 1, 0, { ...state.spaces[index], id: action.payload.newId });
         }
     }
 });
 
-export const { spaceAdded } = spacesSlice.actions;
+export const { spaceAdded, spaceDuplicated } = spacesSlice.actions;
 export default spacesSlice.reducer;
