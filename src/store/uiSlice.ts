@@ -18,8 +18,9 @@ const uiSlice = createSlice({
         spacesOpened: (state) => {
             state.mode = "spaces";
         },
-        visualizerOpened: (state, action: PayloadAction<string>) => {
+        visualizerOpened: (state, action: PayloadAction<number>) => {
             state.mode = "visualizer";
+            state.activeSpaceId = action.payload;
         },
         activeSpaceSet: (state, action: PayloadAction<number>) => {
             state.activeSpaceId = action.payload;
