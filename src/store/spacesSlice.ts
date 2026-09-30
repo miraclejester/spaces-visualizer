@@ -19,10 +19,14 @@ const spacesSlice = createSlice({
         spaceDuplicated: (state, action: PayloadAction<{ sourceId: number, newId: number }>) => {
             const index = state.spaces.findIndex((sp) => sp.id === action.payload.sourceId);
             if (index === -1) return;
-            state.spaces.splice(index + 1, 0, { ...state.spaces[index], id: action.payload.newId });
+            state.spaces.splice(index + 1, 0, { ...state.spaces[index], id: action.payload.newId, favorite: false });
+        },
+        spaceFavoriteToggled: (state, action: PayloadAction<number>) => {
+            const space = state.spaces.find((sp) => sp.id === action.payload);
+            if (space) space.favorite = !space.favorite;
         }
     }
 });
 
-export const { spaceAdded, spaceDuplicated } = spacesSlice.actions;
+export const { spaceAdded, spaceDuplicated, spaceFavoriteToggled } = spacesSlice.actions;
 export default spacesSlice.reducer;

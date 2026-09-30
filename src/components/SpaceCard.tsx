@@ -1,8 +1,9 @@
 import {motion} from 'framer-motion';
 import clsx from 'clsx';
-import {CopyIcon, HeartIcon, ShareNetworkIcon} from '@phosphor-icons/react';
+import {CopyIcon, ShareNetworkIcon} from '@phosphor-icons/react';
 import {Space} from '@/types/space';
 import {ToolbarButton} from '@/components/ToolbarButton';
+import {FavoriteButton} from '@/components/FavoriteButton';
 import {SpaceImageFrame} from '@/components/SpaceImageFrame';
 import {FADE_AROUND_ZOOM} from '@/lib/motion';
 
@@ -13,10 +14,11 @@ type SpaceCardProps = {
     space: Space;
     onOpen: () => void;
     onDuplicate: () => void;
+    onToggleFavorite: () => void;
     isSwiping?: boolean;
 }
 
-export function SpaceCard({ space, onOpen, onDuplicate, isSwiping = false }: SpaceCardProps) {
+export function SpaceCard({ space, onOpen, onDuplicate, onToggleFavorite, isSwiping = false }: SpaceCardProps) {
     return (
         <article className="flex flex-col gap-6">
             <button
@@ -40,7 +42,7 @@ export function SpaceCard({ space, onOpen, onDuplicate, isSwiping = false }: Spa
                 </div>
                 <div className={clsx("flex gap-1.5", HIDEABLE, isSwiping && HIDDEN)}>
                     <ToolbarButton icon={ShareNetworkIcon} label="Share" />
-                    <ToolbarButton icon={HeartIcon} label="Favorite" />
+                    <FavoriteButton isFavorite={space.favorite} onToggle={onToggleFavorite} />
                     <ToolbarButton icon={CopyIcon} label="Duplicate" onClick={onDuplicate} />
                 </div>
             </motion.div>

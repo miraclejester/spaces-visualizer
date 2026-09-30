@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import {useAppDispatch, useAppSelector} from '@/store/hooks';
 import {selectSpaces} from '@/store/selectors';
 import {visualizerOpened} from '@/store/uiSlice';
-import {spaceAdded, spaceDuplicated} from '@/store/spacesSlice';
+import {spaceAdded, spaceDuplicated, spaceFavoriteToggled} from '@/store/spacesSlice';
 import {getRandomSpace} from '@/lib/dataAccess';
 import {SpaceCard} from '@/components/SpaceCard';
 import {FADE_AROUND_ZOOM, SCALE_IN_NEW} from '@/lib/motion';
@@ -89,6 +89,7 @@ export function SpacesView() {
                                 space={space}
                                 onOpen={() => dispatch(visualizerOpened(space.id))}
                                 onDuplicate={() => duplicateSpace(space.id)}
+                                onToggleFavorite={() => dispatch(spaceFavoriteToggled(space.id))}
                                 isSwiping={isSwiping}
                             />
                         </motion.div>

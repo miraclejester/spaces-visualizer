@@ -1,9 +1,9 @@
-import {ComponentType, MouseEventHandler} from 'react';
+import {ComponentType, isValidElement, MouseEventHandler, ReactElement} from 'react';
 import {IconProps} from '@phosphor-icons/react';
 import clsx from 'clsx';
 
 type ToolbarButtonProps = {
-    icon: ComponentType<IconProps>;
+    icon: ComponentType<IconProps> | ReactElement;
     label: string;
     onClick?: MouseEventHandler<HTMLButtonElement>;
     active?: boolean;
@@ -23,7 +23,7 @@ export function ToolbarButton({ icon: Icon, label, onClick, active = false }: To
                     : "bg-neutral-800/90 text-neutral-100 hover:bg-neutral-700"
             )}
         >
-            <Icon size={14} />
+            {isValidElement(Icon) ? Icon : <Icon size={14} />}
             {label}
         </button>
     );
