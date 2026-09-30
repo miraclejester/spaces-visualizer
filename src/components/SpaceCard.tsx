@@ -1,7 +1,9 @@
-import Image from 'next/image';
+import {motion} from 'framer-motion';
 import {CopyIcon, HeartIcon, ShareNetworkIcon} from '@phosphor-icons/react';
 import {Space} from '@/types/space';
 import {ToolbarButton} from '@/components/ToolbarButton';
+import {SpaceImageFrame} from '@/components/SpaceImageFrame';
+import {FADE_AROUND_ZOOM} from '@/lib/motion';
 
 type SpaceCardProps = {
     space: Space;
@@ -14,12 +16,12 @@ export function SpaceCard({ space, onOpen }: SpaceCardProps) {
             <button
                 type="button"
                 onClick={onOpen}
-                className="relative aspect-3/2 w-full overflow-hidden rounded-3xl shadow-2xl transition-transform duration-200 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="relative aspect-3/2 w-full rounded-3xl shadow-2xl transition-transform duration-200 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
-                <Image src={space.image.imageUrl} alt={space.title} fill sizes="80vw" className="object-cover" />
+                <SpaceImageFrame space={space} borderRadius={24} className="absolute inset-0" />
             </button>
 
-            <div className="flex items-center justify-between px-6">
+            <motion.div {...FADE_AROUND_ZOOM} className="flex items-center justify-between px-6">
                 <div className="flex flex-col gap-1.5 text-neutral-100">
                     <h2 className="text-[11px] font-semibold uppercase tracking-wide">{space.title}</h2>
                     <p className="flex gap-8 text-[11px] text-neutral-300">
@@ -32,7 +34,7 @@ export function SpaceCard({ space, onOpen }: SpaceCardProps) {
                     <ToolbarButton icon={HeartIcon} label="Favorite" />
                     <ToolbarButton icon={CopyIcon} label="Duplicate" />
                 </div>
-            </div>
+            </motion.div>
         </article>
     );
 }
