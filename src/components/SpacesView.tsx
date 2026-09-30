@@ -45,8 +45,7 @@ export function SpacesView() {
     }, [emblaApi]);
 
     const nextSpaceId = () => Math.max(0, ...spaces.map((sp) => sp.id)) + 1;
-
-    /** Marks a space that's about to be added so it scales in and gets scrolled to */
+    
     const revealNewSpace = (id: number) => {
         scrollToSpaceId.current = id;
         setAddedSpaceId(id);
@@ -77,8 +76,8 @@ export function SpacesView() {
         <main className="fixed inset-0 flex flex-col">
             <motion.div {...FADE_AROUND_ZOOM} animate={{ opacity: 1 }} className="absolute inset-0 bg-[#4a525c]" />
 
-            <div ref={emblaRef} className="relative flex-1 overflow-hidden pt-20">
-                <div className="flex" style={{ transform: initialOffset }}>
+            <div ref={emblaRef} className="relative flex-1 overflow-hidden pt-8 sm:pt-20">
+                <div className="flex [--slide-pad:0.5rem] sm:[--slide-pad:1.75rem]" style={{ transform: initialOffset }}>
                     {spaces.map((space) => (
                         <motion.div
                             key={space.id}
@@ -86,7 +85,7 @@ export function SpacesView() {
                             {...FADE_AROUND_ZOOM}
                             initial={space.id === activeSpaceId ? false : FADE_AROUND_ZOOM.initial}
                             {...(space.id === addedSpaceId && SCALE_IN_NEW)}
-                            className="min-w-0 shrink-0 grow-0 px-7"
+                            className="min-w-0 shrink-0 grow-0 px-(--slide-pad)"
                             style={{ flexBasis: SLIDE_WIDTH }}
                         >
                             <SpaceCard
@@ -100,8 +99,8 @@ export function SpacesView() {
                     ))}
                     <motion.div
                         {...FADE_AROUND_ZOOM}
-                        className="flex min-w-0 shrink-0 grow-0 basis-40 items-center justify-center"
-                        style={{ height: `calc((${SLIDE_WIDTH} - 3.5rem) / 1.5)` }}
+                        className="flex min-w-0 shrink-0 grow-0 basis-24 items-center justify-center sm:basis-40"
+                        style={{ height: `calc((${SLIDE_WIDTH} - 2 * var(--slide-pad)) / 1.5)` }}
                     >
                         <button
                             type="button"

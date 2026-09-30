@@ -7,9 +7,10 @@ import {ToolbarButton} from '@/components/ToolbarButton';
 type FavoriteButtonProps = {
     isFavorite: boolean;
     onToggle: () => void;
+    labelClassName?: string;
 }
 
-export function FavoriteButton({ isFavorite, onToggle }: FavoriteButtonProps) {
+export function FavoriteButton({ isFavorite, onToggle, labelClassName }: FavoriteButtonProps) {
     const [wasToggled, setWasToggled] = useState(false);
 
     const heart = (
@@ -32,6 +33,7 @@ export function FavoriteButton({ isFavorite, onToggle }: FavoriteButtonProps) {
         <ToolbarButton
             icon={heart}
             label="Favorite"
+            labelClassName={labelClassName}
             onClick={() => {
                 setWasToggled(true);
                 onToggle();

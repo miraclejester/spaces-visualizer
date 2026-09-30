@@ -8,9 +8,10 @@ type ToolbarButtonProps = {
     onClick?: MouseEventHandler<HTMLButtonElement>;
     active?: boolean;
     className?: string;
+    labelClassName?: string;
 }
 
-export function ToolbarButton({ icon: Icon, label, onClick, active = false, className }: ToolbarButtonProps) {
+export function ToolbarButton({ icon: Icon, label, onClick, active = false, className, labelClassName }: ToolbarButtonProps) {
     return (
         <button
             type="button"
@@ -26,7 +27,7 @@ export function ToolbarButton({ icon: Icon, label, onClick, active = false, clas
             )}
         >
             {isValidElement(Icon) ? Icon : <Icon size={14} />}
-            {label}
+            <span className={labelClassName}>{label}</span>
         </button>
     );
 }
