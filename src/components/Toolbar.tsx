@@ -13,11 +13,11 @@ export function Toolbar() {
     return (
         <motion.nav
             {...FADE_AROUND_ZOOM}
-            className="fixed left-1/2 top-0 z-10 flex h-14 w-88 -translate-x-1/2 items-center justify-center gap-1.5 rounded-b-xl bg-neutral-600/70 px-2 backdrop-blur-sm"
+            className="fixed left-1/2 top-0 z-10 flex h-14 w-88 -translate-x-1/2 items-center justify-center gap-2 rounded-b-xl bg-[#303438]/55 px-2 backdrop-blur-sm"
         >
-            <ToolbarButton icon={SignOutIcon} label="Exit" />
-            <ToolbarButton icon={ColumnsIcon} label="My spaces" onClick={() => dispatch(spacesOpened())} />
-            <ToolbarButton icon={ShareNetworkIcon} label="Share" />
+            <ToolbarButton icon={SignOutIcon} label="Exit" className="w-21.5" />
+            <ToolbarButton icon={ColumnsIcon} label="My spaces" className="w-32.25" onClick={() => dispatch(spacesOpened())} />
+            <ToolbarButton icon={ShareNetworkIcon} label="Share" className="w-26.25" />
         </motion.nav>
     );
 }
