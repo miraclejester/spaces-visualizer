@@ -3,12 +3,12 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 type UIState = {
     mode: AppMode,
-    activeSpaceId: string | null;
+    activeSpaceId: number;
 }
 
 const initialState: UIState = {
     mode: "spaces",
-    activeSpaceId: null
+    activeSpaceId: 0
 }
 
 const uiSlice = createSlice({
@@ -21,7 +21,7 @@ const uiSlice = createSlice({
         visualizerOpened: (state, action: PayloadAction<string>) => {
             state.mode = "visualizer";
         },
-        activeSpaceSet: (state, action: PayloadAction<string>) => {
+        activeSpaceSet: (state, action: PayloadAction<number>) => {
             state.activeSpaceId = action.payload;
         }
     }
